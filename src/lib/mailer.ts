@@ -1,0 +1,50 @@
+import nodemailer from 'nodemailer';
+
+
+
+export const sendEmail = async({email, firstname, href, price, product}:any) => {
+    try {
+        // create a hased token
+      
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            host: "smtp.gmail.com",
+            port: 587,
+            secure: false,
+            auth: {
+                  user: "babish9887@gmail.com", 
+                  pass:"uaax fbwt lspf kclp"
+            },
+        });
+
+
+        let message=`
+        
+        <div style="font-family: Arial, sans-serif; text-align: center; background-color: #f2f2f2;">
+        <div style="background-color: #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); padding: 20px; margin: 20px auto; max-width: 400px;">
+          <h2 style="color: #333; margin-top: 0;">Hi!, ${firstname}</h2>
+          <p style="color: #555;">Here is your receipt:</p>
+          <h1 style="color: #333;">Product Name: ${product}</h1>
+          <p style="color: #555;">Price Paid: ${price}</p>
+          <a href="${href}" style="background-color: #000; color: #fff; border: none; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-size: 16px; margin-top: 20px; display: inline-block;">Download</a>
+        </div>
+      </div>
+      `
+       
+
+        const mailOptions = {
+            from: 'babish@gmail.com',
+            to: email,
+            subject:"Get the Product",
+            html: message
+        }
+
+        const mailresponse = await transporter.sendMail
+        (mailOptions);
+        return mailresponse;
+    } catch (error:any) {
+      console.log(error.message)
+
+        throw new Error(error.message);
+    }
+}
