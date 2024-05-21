@@ -3,11 +3,11 @@ import db from '@/db/db'
 import React, { Suspense } from 'react'
 import {cache} from '@/lib/cache'
 
-const getProducts =  cache(async()=>{
+const getProducts = async()=>{
       return await db.product.findMany({
             where:{isAvailableforPurchase:true}, 
             orderBy:{name:"asc"}})
-},["/products", "getProducts"], {revalidate:false})
+}
 
 async function page() {
   return (

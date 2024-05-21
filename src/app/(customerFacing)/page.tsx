@@ -8,21 +8,21 @@ import Link from 'next/link'
 import React, { Suspense } from 'react'
 
 
-const getMostPopularProducts =  cache(()=>{
+const getMostPopularProducts =  ()=>{
       return db.product.findMany({
             where:{isAvailableforPurchase:true},
             orderBy:{orders:{_count:"desc"}},
             take:6
       })
-},["/", "getMostPopularProducts"], {revalidate:60*60*24})
+}
 
-const getNewestProducts = cache(()=>{
+const getNewestProducts = ()=>{
       return db.product.findMany({
             where:{isAvailableforPurchase:true},
             orderBy:{createdAt:"desc"},
             take:6
       })
-},["/","getNewestProducts"], {revalidate:60*60})
+}
 
 function HomePage() {
   return (

@@ -79,7 +79,7 @@ function page() {
       <Card>
             <CardHeader>
                   <CardTitle>My Orders</CardTitle>
-                  <CardDescription>Enter your email and we will email your order history and download links</CardDescription>
+                  <CardDescription>Enter your email </CardDescription>
             </CardHeader>
             <CardContent>
                   <div className='space-y-2'>
