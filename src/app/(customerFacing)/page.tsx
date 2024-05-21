@@ -48,15 +48,7 @@ async function ProductGridSection({title, productFetcher}:{title:string,productF
             </Button>
       </div>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
-            {/* <Suspense fallback={
-                  <>
-                  <ProductCardSkeleton />
-                  <ProductCardSkeleton />
-                  <ProductCardSkeleton />
-                  </>
-            }>
-                  <ProductSuspense productFetcher={productFetcher}/>
-            </Suspense> */}
+          
             {(await productFetcher()).map(product=>(
             <ProductCard key={product.id} {...product}/>
       ))}
@@ -65,11 +57,6 @@ async function ProductGridSection({title, productFetcher}:{title:string,productF
 )
 }
 
-async function ProductSuspense({productFetcher}:{productFetcher:()=>Promise<Product[]>}){
-      return (await productFetcher()).map(product=>(
-            <ProductCardSkeleton key={product.id} {...product}/>
-      ))
-}
 
 
 
