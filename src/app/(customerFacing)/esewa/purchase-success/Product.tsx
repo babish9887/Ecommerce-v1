@@ -21,12 +21,12 @@ function Product({product, name, email}:{product:any, name:string, email:string}
                         toast.success("Check your email to get Product or you can directly download from here", {duration:5000})
                         setIsSuccess(true)
                         setIsLoading(false)
-                        setId(response.data.id)
+                        setId(response.data.href)
                   }
                   else
                         toast.error(response.data.message)
                   } catch (error:any) {
-                        toast.error("something went wrong! Please try Again",error)
+                        toast.error("You have already purchased this product, check your email or visit my orders page",error)
                   } finally{
                         setIsLoading(false)
                   }
@@ -44,7 +44,7 @@ function Product({product, name, email}:{product:any, name:string, email:string}
                   <div className='line-clamp-3 text-muted-foreground'>{product?.description}</div>
             
             {isSuccess ? <Button className='mt-4'>
-                  <a href={`${process.env.DOMAIN}/products/download/${id}`}>{isLoading?"Downloading...":"Download"}</a>
+                  <a href={id}>{isLoading?"Downloading...":"Download"}</a>
                   </Button>:
                   <Button className='mt-4' size="lg" onClick={handleClick} disabled={isLoading}>
                         {isLoading? "confirming...": "Get the Product"}
