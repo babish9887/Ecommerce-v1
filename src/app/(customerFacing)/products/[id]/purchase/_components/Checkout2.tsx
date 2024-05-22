@@ -24,8 +24,6 @@ function Checkout2({product}:any) {
                   const res=await axios.post('/api/checkdownload',{email, product:product.id})
                   if(!res.data.success)
                         return toast.error(res.data.message, {duration:4000})
-
-
                   const uuid=new Date().getTime().toString().slice(-6);
                   console.log(uuid);
                   console.log(product.price)
@@ -37,8 +35,8 @@ function Checkout2({product}:any) {
                   "product_code": "EPAYTEST",
                   "signature": "",
                   "signed_field_names": "total_amount,transaction_uuid,product_code",
-                  // "success_url": `https://babish9887-ecommerce-nextjs.vercel.app/esewa/purchase-success?id=${product.id}&name=${name}&email=${email}&`,
-                  "success_url": `http://localhost:3000/esewa/purchase-success?id=${product.id}&name=${name}&email=${email}&`,
+                  "success_url": `https://babish9887-ecommerce-nextjs.vercel.app/esewa/purchase-success?id=${product.id}&name=${name}&email=${email}&`,
+                  // "success_url": `http://localhost:3000/esewa/purchase-success?id=${product.id}&name=${name}&email=${email}&`,
 
                   "tax_amount": "0",
                   "total_amount": product.price.toString(),

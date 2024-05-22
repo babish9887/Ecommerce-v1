@@ -5,19 +5,11 @@ import React, { Suspense, useEffect, useState } from "react";
 import { cache } from "@/lib/cache";
 import axios from "axios";
 
-// const getProducts = async()=>{
-//       return await db.product.findMany({
-//             where:{isAvailableforPurchase:true},
-//             orderBy:{name:"asc"}})
-// }
-
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
@@ -25,21 +17,13 @@ import { Button } from "@/components/ui/button";
 async function page() {
   const [products, setProducts] = useState([]);
   const [position, setPosition] = React.useState("A-Z");
-//   useEffect(() => {
-//     async function getProducts() {
-//       const res = await axios.get(`/api/getproducts/?order=asc`);
-//       setProducts(res.data.products);
-//     }
-//     getProducts();
-//   }, []);
-
   useEffect(()=>{
       async function GetProducts(){
            const res=await axios.get(`/api/getproducts/?order=${position}`) 
            setProducts(res.data.products)
       }
       GetProducts()
-  },[position])
+  },[setPosition])
   return (
     <>
       <div className="flex justify-between items-center">
