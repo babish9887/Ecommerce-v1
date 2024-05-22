@@ -12,6 +12,7 @@ import { Resend } from 'resend'
 import { formatCurrency } from '@/lib/Formatter'
 import { sendVerifyEmail } from '@/lib/mailer2'
 import toast from 'react-hot-toast'
+import getUser from '@/app/actions/getUser'
 
 function page() {
       const [afterEmail, setAfterEmail]=useState(false)
@@ -34,6 +35,8 @@ function page() {
             }
             setIsLoading(true)
             e.preventDefault()
+
+
             try {
                   
            
@@ -43,10 +46,11 @@ function page() {
 
 
             if(res.data.success){
-                  const response=await axios.post('/api/getUser',{email} )
-                  console.log(response.data.user)
-                  const userId=response.data.user.id
-                  if(response.data.user){
+                  const res=await axios.post('/api/getUser', {email})
+                  if(!res.data.user) return
+                  console.log(res.data.user)
+                  const userId=res.data.user?.id
+                  if(res.data.user){
                   const res=await axios.post('/api/getUserDownloads', {userId})
                   setOrders(res.data.usersOrders)
                   console.log(res.data.usersOrders)
@@ -67,6 +71,7 @@ function page() {
             }
         }
       } catch (error) {
+            console.log(error)
             toast.error("Something went wrong!")      
       } finally{
             setIsLoading(false)
@@ -79,7 +84,7 @@ function page() {
       <Card>
             <CardHeader>
                   <CardTitle>My Orders</CardTitle>
-                  <CardDescription>Enter your email </CardDescription>
+                  <CardDescription>Enter your email to get All your Purchases</CardDescription>
             </CardHeader>
             <CardContent>
                   <div className='space-y-2'>
@@ -108,6 +113,8 @@ function page() {
                         
                         <TableHead>Name</TableHead>
                         <TableHead>Price</TableHead>
+                        <TableHead>Purchase Date</TableHead>
+
                         <TableHead className='w-0'>
                               <span className='sr-only'>Actions</span>
                         </TableHead>
@@ -124,11 +131,11 @@ function page() {
                                     </TableCell>
                                     <TableCell>{formatCurrency(order.price)}</TableCell>
 
-                                    <TableCell></TableCell>
+                                    <TableCell>{order.purchaseDate}</TableCell>
 
                               <TableCell>
                               <Button className='mt-4'>
-                              <a href={`${process.env.DOMAIN}/products/download/${order.orderId}?exp=false`}>{"Download"}</a>
+                              <a href={`http://localhost:3000/products/download/${order.orderId}?exp=false`}>{"Download"}</a>
                               </Button>
                               </TableCell>
                               </TableRow>

@@ -47,21 +47,21 @@ function ProductForm({ product }: { product?: Product | null }) {
                 {error?.file && <div className='text-destructive'>{error?.file}</div>}
             </div>
 
-            {product == null && (
-                <div className='space-y-2'>
-                    <Label htmlFor='image'>Image</Label>
-                    <Input type='file' id='image' name='image' required={product == null} />
-                    {error?.image && <div className='text-destructive'>ImageError: {error?.image}</div>}
-                </div>
-            )}
-
+            <div className="space-y-2">
+            <Label htmlFor="image">Image</Label>
+            <Input type="file" id="image" name="image" required={product == null} />
             {product != null && (
-                <div className='space-y-2'>
-                    <Label htmlFor='image'>Image</Label>
-                    <Image src={product?.imagePath} height="400" width="400" alt='product image' />
-                    {error?.image && <div className='text-destructive'>ImageError: {error?.image}</div>}
-                </div>
+            <Image
+                  src={product.imagePath}
+                  height="400"
+                  width="400"
+                  alt="Product Image"
+            />
             )}
+            {error?.image && <div className="text-destructive">{error?.image}</div>}
+            </div>
+
+    
 
             <SubmitButton />
         </form>

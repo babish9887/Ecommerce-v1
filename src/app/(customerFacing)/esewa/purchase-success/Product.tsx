@@ -24,9 +24,9 @@ function Product({product, name, email}:{product:any, name:string, email:string}
                         setId(response.data.href)
                   }
                   else
-                        toast.error(response.data.message)
+                        toast.error("You have already purchased this product, Check your email or visit my orders page",{duration:4000})
                   } catch (error:any) {
-                        toast.error("You have already purchased this product, check your email or visit my orders page",error)
+                        toast.error("You have already purchased this product, check your email or visit my orders page", {duration:4000})
                   } finally{
                         setIsLoading(false)
                   }

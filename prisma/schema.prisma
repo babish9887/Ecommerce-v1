@@ -23,6 +23,7 @@ model Product{
       isAvailableforPurchase  Boolean           @default(true)
       createdAt               DateTime          @default(now())
       updatedAt               DateTime          @updatedAt
+      totalOrders Int?
       orders Order[]
       downloadVerifications DownloadVerification[]
 }

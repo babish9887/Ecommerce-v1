@@ -6,19 +6,21 @@ import Link from 'next/link'
 import Image from 'next/image'
 import axios from 'axios'
 
-function ProductCard({id, name, price, description, imagePath}:{id:string, name:string,price:number, description:string, imagePath:string}) {
+function ProductCard({id, name, price, description, imagePath, totalOrders}:{id:string, name:string,price:number, description:string, imagePath:string, totalOrders:number}) {
       console.log(imagePath);
   return (
     <Card className='flex overflow-hidden flex-col'>
-      <div className='relative w-full h-auto aspect-video'>
-            <Image src={imagePath} fill alt={name} priority sizes='20'/>
+      <div className='relative w-full h-auto aspect-video overflow-hidden transition-all'>
+            <Image src={imagePath} fill alt={name} priority sizes='20' className='hover:scale-110 transition-all'/>
       </div>
       <CardHeader>
             <CardTitle>{name}</CardTitle>
-            <CardDescription>{formatCurrency(price)}</CardDescription>
+            <CardDescription>
+                  <div className=''>{formatCurrency(price)} <p className='text-sm'>Sold: {totalOrders}</p></div>
+            </CardDescription>
       </CardHeader>
       <CardContent className='flex-grow'>
-            <p className='line-clamp-4'>{description}</p>
+            <p className='line-clamp-2'>{description}</p>
       </CardContent>
       <CardFooter>
             <Button><Link href={`/products/${id}/purchase`}>Get this Product</Link></Button>

@@ -5,6 +5,7 @@ import axios from 'axios';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import CryptoJS from 'crypto-js'
+import toast from 'react-hot-toast';
 
 
 
@@ -14,45 +15,61 @@ function Checkout2({product}:any) {
       const [email, setEmail]=useState<string>()
       const [name, setName]=useState<string>()
 
-      function handlePayButtonClick(e:any) {
+      async function handlePayButtonClick(e:any) {
             e.preventDefault()
+            setIsLoading(true)
 
-            const uuid=new Date().getTime().toString().slice(-6);
-            console.log(uuid);
-            console.log(product.price)
-          const jsonData:any = {
-            "amount": product.price.toString(),
-            "failure_url": `https://babish9887-ecommerce-nextjs.vercel.app/fail`,
-            "product_delivery_charge": "0",
-            "product_service_charge": "0",
-            "product_code": "EPAYTEST",
-            "signature": "",
-            "signed_field_names": "total_amount,transaction_uuid,product_code",
-            "success_url": `https://babish9887-ecommerce-nextjs.vercel.app/esewa/purchase-success?id=${product.id}&name=${name}&email=${email}&`,
-            "tax_amount": "0",
-            "total_amount": product.price.toString(),
-            "transaction_uuid":uuid
-          };
-          let url="https://rc-epay.esewa.com.np/api/epay/main/v2/form";
-      
-          const message = "total_amount=" + jsonData.total_amount + ",transaction_uuid=" + jsonData.transaction_uuid + ",product_code=" + jsonData.product_code;
-          const signature = createSignature(message);
-          jsonData.signature = signature;
-      
-      
-          const form = document.createElement("form");
-          for (const key in jsonData) {
-            const field = document.createElement("input");
-            field.setAttribute("type", "hidden");
-            field.setAttribute("name", key);
-            field.setAttribute("value", jsonData[key]);
-            form.appendChild(field);
-          }
-      
-          form.setAttribute("method", "post");
-          form.setAttribute("action", url); // Replace "URL_TO_SUBMIT_TO" with your actual URL
-          document.body.appendChild(form);
-          form.submit();
+            //check if the user has already purchased the product or not
+            try {
+                  const res=await axios.post('/api/checkdownload',{email, product:product.id})
+                  if(!res.data.success)
+                        return toast.error(res.data.message, {duration:4000})
+
+
+                  const uuid=new Date().getTime().toString().slice(-6);
+                  console.log(uuid);
+                  console.log(product.price)
+            const jsonData:any = {
+                  "amount": product.price.toString(),
+                  "failure_url": `https://babish9887-ecommerce-nextjs.vercel.app/fail`,
+                  "product_delivery_charge": "0",
+                  "product_service_charge": "0",
+                  "product_code": "EPAYTEST",
+                  "signature": "",
+                  "signed_field_names": "total_amount,transaction_uuid,product_code",
+                  // "success_url": `https://babish9887-ecommerce-nextjs.vercel.app/esewa/purchase-success?id=${product.id}&name=${name}&email=${email}&`,
+                  "success_url": `http://localhost:3000/esewa/purchase-success?id=${product.id}&name=${name}&email=${email}&`,
+
+                  "tax_amount": "0",
+                  "total_amount": product.price.toString(),
+                  "transaction_uuid":uuid
+            };
+            let url="https://rc-epay.esewa.com.np/api/epay/main/v2/form";
+            
+            const message = "total_amount=" + jsonData.total_amount + ",transaction_uuid=" + jsonData.transaction_uuid + ",product_code=" + jsonData.product_code;
+            const signature = createSignature(message);
+            jsonData.signature = signature;
+            
+            
+            const form = document.createElement("form");
+            for (const key in jsonData) {
+                  const field = document.createElement("input");
+                  field.setAttribute("type", "hidden");
+                  field.setAttribute("name", key);
+                  field.setAttribute("value", jsonData[key]);
+                  form.appendChild(field);
+            }
+            
+            form.setAttribute("method", "post");
+            form.setAttribute("action", url); // Replace "URL_TO_SUBMIT_TO" with your actual URL
+            document.body.appendChild(form);
+            form.submit();
+
+            } catch (error) {
+                  toast.error("Something Unexpected Happen! Please Try Again later")                 
+            } finally{
+                  setIsLoading(false)
+            }
         }
       
         function createSignature(message:string) {

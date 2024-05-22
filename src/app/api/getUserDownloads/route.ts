@@ -28,7 +28,8 @@ export async function POST(req:Request){
                   orderId:order.id,
                   name:product?.name,
                   description:product?.description,
-                  price:product?.price
+                  price:product?.price,
+                  purchaseDate:order.createdAt.toISOString().split("T")[0]
             }
       })
       return NextResponse.json({success:true, orders, products, usersOrders}, {status:200})
