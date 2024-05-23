@@ -1,3 +1,4 @@
+
 import React from 'react'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './ui/card'
 import { formatCurrency } from '@/lib/Formatter'
@@ -6,8 +7,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import axios from 'axios'
 
-function ProductCard({id, name, price, description, imagePath, totalOrders}:{id:string, name:string,price:number, description:string, imagePath:string, totalOrders:number}) {
-      console.log(imagePath);
+function ProductCard({id, name, price, description, imagePath, totalOrders}:{id:string, name:string,price:number, description:string, imagePath:string, totalOrders?:number}) {
   return (
     <Card className='flex overflow-hidden flex-col'>
       <div className='relative w-full h-auto aspect-video overflow-hidden transition-all'>
@@ -15,8 +15,14 @@ function ProductCard({id, name, price, description, imagePath, totalOrders}:{id:
       </div>
       <CardHeader>
             <CardTitle>{name}</CardTitle>
+            {/* <CardDescription>
+                  <div className=''>
+                        <div>{formatCurrency(price)}</div>
+                         <div className='text-sm'>Sold: {totalOrders}</div>
+                  </div>
+            </CardDescription> */}
             <CardDescription>
-                  <div className=''>{formatCurrency(price)} <p className='text-sm'>Sold: {totalOrders}</p></div>
+                  {formatCurrency(price)} <span className='text-sm '>Sold: {totalOrders}</span>
             </CardDescription>
       </CardHeader>
       <CardContent className='flex-grow'>

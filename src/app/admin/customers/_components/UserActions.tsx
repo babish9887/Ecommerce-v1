@@ -44,6 +44,7 @@ export function DeleteDropdownItem({
   const router = useRouter()
   return (
     <DropdownMenuItem
+    className="text-red-500 hover:text-white hover:bg-red-500"
       disabled={disabled || isPending}
       onClick={() => {
         startTransition(async () => {

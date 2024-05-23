@@ -1,9 +1,8 @@
 "use client";
-import ProductCard, { ProductCardSkeleton } from "@/components/ProductCard";
-import db from "@/db/db";
-import React, { Suspense, useEffect, useState } from "react";
-import { cache } from "@/lib/cache";
+import React, {  useEffect, useState } from "react";
 import axios from "axios";
+import Category from '../../../../Categories.json'
+import SortBy from '../../../../SortBy.json'
 
 import {
   DropdownMenu,
@@ -13,46 +12,62 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
+import ProductCard from "@/components/ProductCard";
+import toast from "react-hot-toast";
 
 async function page() {
   const [products, setProducts] = useState([]);
   const [position, setPosition] = React.useState("A-Z");
+  const [categoryPosition, setCategoryPostion] = React.useState("All");
+
   useEffect(()=>{
       async function GetProducts(){
-           const res=await axios.get(`/api/getproducts/?order=${position}`) 
-           setProducts(res.data.products)
+
+                  const res=await axios.get(`/api/getproducts/?order=${position}&category=${categoryPosition}`) 
+                  setProducts(res.data.products)
+           
       }
       GetProducts()
-  },[setPosition])
+  },[])
+
+const  handleValueChange=async (e:any)=>{
+      console.log(e)
+      const isCategory:boolean=Category.includes(e);
+      if(isCategory){
+            setCategoryPostion(e)
+      }else 
+            setPosition(e)
+      try{
+            if(isCategory){
+                  const res=await axios.get(`/api/getproducts/?order=${position}&category=${e}`) 
+                  setProducts(res.data.products)
+            } else {
+                  const res=await axios.get(`/api/getproducts/?order=${e}&category=${categoryPosition}`) 
+                  setProducts(res.data.products)
+            }
+
+      } catch(e:any){
+            toast.error("Error connecting to Database")
+      }
+
+  }
   return (
     <>
-      <div className="flex justify-between items-center">
-        <h1 className="text-4xl sm:5xl font-bold mb-6">Products</h1>
+      <div className="flex justify-between items-center mb-6 mt-4">
+        <div className="flex justify-center items-center">
+        <h1 className="text-4xl sm:5xl font-bold  ">Products</h1>
+        <p className="ml-4 mr-4">Category: </p>
+        <CategoryDropDown categoryPosition={categoryPosition} handleValueChange={handleValueChange}/>
+        
+        </div>
         <div className="flex justify-center items-center gap-4">
           <p>Sort By: </p>
-          <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                        <Button variant="outline">{position}</Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-56">
-                        {/* <DropdownMenuLabel>Panel Position</DropdownMenuLabel> */}
-                        {/* <DropdownMenuSeparator /> */}
-                        <DropdownMenuRadioGroup
-                        value={position}
-                        onValueChange={setPosition}>
-                        <DropdownMenuRadioItem value="A-Z">A-Z</DropdownMenuRadioItem>
-                        <DropdownMenuRadioItem value="Top Sales">Top Sales</DropdownMenuRadioItem>
-                        <DropdownMenuRadioItem value="Price Low to High">Price Low to High</DropdownMenuRadioItem>
-                        <DropdownMenuRadioItem value="Price High to Low">Price High to Low</DropdownMenuRadioItem>
-                        <DropdownMenuRadioItem value="Newest First">Newest First</DropdownMenuRadioItem>
-
-                        </DropdownMenuRadioGroup>
-                  </DropdownMenuContent>
-          </DropdownMenu>
+            <SortByDropDown position={position} handleValueChange={handleValueChange}/>
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {products && products.length > 0 && <Product products={products} />}
+
+        {products && products.length>0 && <Product products={products} />}
       </div>
     </>
   );
@@ -63,5 +78,48 @@ async function Product({ products }: any) {
     <ProductCard key={product.id} {...product} />
   ));
 }
+
+
+function SortByDropDown({position, handleValueChange}:any){
+      return(
+            <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                  <Button variant="outline">{position}</Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56">
+                  {/* <DropdownMenuLabel>Panel Position</DropdownMenuLabel> */}
+                  {/* <DropdownMenuSeparator /> */}
+                  <DropdownMenuRadioGroup
+                  value={position}
+                  onValueChange={handleValueChange}>
+                  {SortBy.map((item:string)=>(
+                        <DropdownMenuRadioItem key={item} value={item}>{item}</DropdownMenuRadioItem>
+                  ))}
+
+                  </DropdownMenuRadioGroup>
+            </DropdownMenuContent>
+    </DropdownMenu>
+)}
+
+function CategoryDropDown({categoryPosition, handleValueChange}:any){
+      return(
+            <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                  <Button variant="outline">{categoryPosition}</Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56">
+                  <DropdownMenuRadioGroup
+                  value={categoryPosition}
+                  onValueChange={handleValueChange}>
+                  {Category.map((category:string)=>(
+                        <DropdownMenuRadioItem key={category} value={category}>{category}</DropdownMenuRadioItem>
+                  ))}
+
+                  </DropdownMenuRadioGroup>
+            </DropdownMenuContent>
+    </DropdownMenu>
+)}
+
+
 
 export default page;

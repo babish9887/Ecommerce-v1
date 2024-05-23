@@ -50,7 +50,7 @@ async function ProductGridSection({title, productFetcher}:{title:string,productF
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
           
             {(await productFetcher()).map(product=>(
-            <ProductCard key={product.id} {...product}/>
+            <ProductCard key={product.id} {...product} totalOrders={product.totalOrders || 0}/>
       ))}
       </div>
       </div>

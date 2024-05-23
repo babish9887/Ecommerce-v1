@@ -9,6 +9,15 @@ import { addProduct, updateProduct } from '../../_actions/products'
 import { useFormState, useFormStatus } from 'react-dom'
 import { Product } from '@prisma/client'
 import Image from 'next/image'
+import Category from '../../../../../Categories.json'
+import {
+      Select,
+      SelectContent,
+      SelectGroup,
+      SelectItem,
+      SelectTrigger,
+      SelectValue,
+    } from "@/components/ui/select"
 
 function ProductForm({ product }: { product?: Product | null }) {
     const [error, action] = useFormState(product == null ? addProduct : updateProduct.bind(null, product.id), {})
@@ -38,6 +47,23 @@ function ProductForm({ product }: { product?: Product | null }) {
                 <Label htmlFor='description'>Description</Label>
                 <Textarea id='description' name='description' required defaultValue={product?.description} />
                 {error?.description && <div className='text-destructive'>{error?.description}</div>}
+            </div>
+
+            <div className='space-y-2'>
+                <Label htmlFor='category'>Category</Label>
+                  <Select name='category' >
+                        <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder="Select a Category" />
+                        </SelectTrigger>
+                        <SelectContent>
+                        <SelectGroup >
+                        {Category.map((category)=>(
+                              <SelectItem value={category}>{category}</SelectItem>
+                        ))}
+                        </SelectGroup>
+                        </SelectContent>
+                  </Select>
+                {error?.category && <div className='text-destructive'>{error?.category}</div>}
             </div>
 
             <div className='space-y-2'>

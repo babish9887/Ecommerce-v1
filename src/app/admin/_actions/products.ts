@@ -18,6 +18,7 @@ const addSchema=z.object({
       price: z.coerce.number().int().min(1),
       file:fileSchema.refine(file=>file.size>0, "Required"),
       image:imageSchema.refine(image=>image.size>0, "Required"),
+      category:z.string()
 })
 
 
@@ -42,7 +43,8 @@ export async function addProduct(prevState:unknown, formData:FormData) {
             description:data.description,
             price:data.price,
             filePath,
-            imagePath: imagePath
+            imagePath: imagePath,
+            category:data.category || "None"
       }})
       revalidatePath('/')
       revalidatePath('/products')
