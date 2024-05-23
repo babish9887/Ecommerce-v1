@@ -22,7 +22,8 @@ import {
 function ProductForm({ product }: { product?: Product | null }) {
     const [error, action] = useFormState(product == null ? addProduct : updateProduct.bind(null, product.id), {})
     const [price, setPrice] = useState<number | undefined>(product?.price)
-
+      Category.shift()
+      Category.unshift("None")
     return (
         <form className='space-y-8' action={action}>
             <div className='space-y-2'>

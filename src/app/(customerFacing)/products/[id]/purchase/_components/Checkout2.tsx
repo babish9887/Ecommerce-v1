@@ -59,7 +59,7 @@ function Checkout2({product}:any) {
             }
             
             form.setAttribute("method", "post");
-            form.setAttribute("action", url); // Replace "URL_TO_SUBMIT_TO" with your actual URL
+            form.setAttribute("action", url); 
             document.body.appendChild(form);
             form.submit();
 
