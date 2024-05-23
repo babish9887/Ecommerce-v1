@@ -135,7 +135,7 @@ function page() {
 
                               <TableCell>
                               <Button className='mt-4'>
-                              <a href={`http://localhost:3000/products/download/${order.orderId}?exp=false`}>{"Download"}</a>
+                              <a href={`https://babish9887-ecommerce-nextjs.vercel.app/products/download/${order.orderId}?exp=false`}>{"Download"}</a>
                               </Button>
                               </TableCell>
                               </TableRow>
