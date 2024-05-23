@@ -45,7 +45,7 @@ export async function POST(req:Request) {
             }
       })
       console.log(order)
-      const href=`${process.env.DOMAIN}/products/download/${verifcationData.id}`
+      const href=`https://babish9887-ecommerce-nextjs.vercel.app/products/download/${verifcationData.id}`
      const emailStatus=await sendEmail({email:email, firstname:name.split(" ")[0], href, product:product?.name, price:product?.price})
 
     if (!emailStatus) {
