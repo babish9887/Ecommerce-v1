@@ -5,17 +5,10 @@ import { usePathname } from 'next/navigation'
 import path from 'path'
 import React, { Children, ComponentProps } from 'react'
 
-function Nav() {
+function Nav({children}:any) {
   return (
     <nav className='bg-primary text-primary-foreground flex justify-around items-center px-4 h-16'>
-      <a href='/'>
-            <h1 className='hidden sm:block sm:text-3xl font-bold'>Digital Oasis</h1>
-      </a>
-      <div>
-            <NavLink href='/'>Home</NavLink>
-            <NavLink href='/products'>Products</NavLink>
-            <NavLink href='/orders'>My Orders</NavLink>
-      </div>
+     {children}
     </nav>
   )
 }
