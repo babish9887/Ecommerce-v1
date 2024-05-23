@@ -15,14 +15,8 @@ function ProductCard({id, name, price, description, imagePath, totalOrders}:{id:
       </div>
       <CardHeader>
             <CardTitle>{name}</CardTitle>
-            {/* <CardDescription>
-                  <div className=''>
-                        <div>{formatCurrency(price)}</div>
-                         <div className='text-sm'>Sold: {totalOrders}</div>
-                  </div>
-            </CardDescription> */}
             <CardDescription>
-                  {formatCurrency(price)} <span className='text-sm '>Sold: {totalOrders}</span>
+                  {formatCurrency(price)} | <span className='text-sm '>Sold: {totalOrders || 0}</span>
             </CardDescription>
       </CardHeader>
       <CardContent className='flex-grow'>

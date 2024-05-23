@@ -1,5 +1,5 @@
 "use client";
-import React, {  useEffect, useState } from "react";
+import React, {  useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Category from '../../../../Categories.json'
 import SortBy from '../../../../SortBy.json'
@@ -12,8 +12,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import ProductCard from "@/components/ProductCard";
+import ProductCard, { ProductCardSkeleton } from "@/components/ProductCard";
 import toast from "react-hot-toast";
+import { Input } from "@/components/ui/input";
+import { Search } from "lucide-react";
 
 async function page() {
   const [products, setProducts] = useState([]);
@@ -49,7 +51,6 @@ const  handleValueChange=async (e:any)=>{
       } catch(e:any){
             toast.error("Error connecting to Database")
       }
-
   }
   return (
     <>
@@ -58,20 +59,48 @@ const  handleValueChange=async (e:any)=>{
         <h1 className="text-4xl sm:5xl font-bold  ">Products</h1>
         <p className="ml-4 mr-4">Category: </p>
         <CategoryDropDown categoryPosition={categoryPosition} handleValueChange={handleValueChange}/>
-        
         </div>
+      {/* <SearchBox products={products} setProducts={setProducts}/> */}
         <div className="flex justify-center items-center gap-4">
           <p>Sort By: </p>
             <SortByDropDown position={position} handleValueChange={handleValueChange}/>
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <Product products={products} />
+        {/* {(products && products.length>0) ? <Product products={products} />
+        :<>
+        <ProductCardSkeleton />
+        <ProductCardSkeleton />
+        <ProductCardSkeleton />
+        <ProductCardSkeleton />
+        <ProductCardSkeleton />
+        <ProductCardSkeleton />
 
-        {products && products.length>0 && <Product products={products} />}
+        </>} */}
       </div>
     </>
   );
 }
+
+// function SearchBox({products, setProducts}:any){
+//   const [search, setSearch]=useState("");
+//   const handleSearchChange=(e:any)=>{
+//       e.stopPropagation()
+//       console.log(e.target.value)
+//       setSearch(e.target.value)
+//       const temp=products.filter((product:any) => product.name.toLowerCase().startsWith(e.target.value.toLowerCase()))
+//       setProducts(temp)
+
+//   }
+
+//       return (
+//             <div className="flex justify-center items-center gap-2">
+//             <Input value={search} onChange={handleSearchChange} type="text"/>
+//             <div  className="bg-transparent border border-gray-200 p-2 rounded-md hover:cursor-pointer text-gray-500 hover:bg-slate-100"><Search /></div>
+//         </div>
+//       )
+// }
 
 async function Product({ products }: any) {
   return products.map((product: any) => (
