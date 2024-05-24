@@ -81,7 +81,7 @@ export function DeleteDropdownItem({
       );
     }
 
-export function DownloadDropDownItem({filePath}:any){
+export function DownloadDropDownItem({filePath, name}:any){
       
       const handleOnClick=async ()=>{
             const imageRef=ref(storage,filePath)

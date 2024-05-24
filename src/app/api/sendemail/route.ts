@@ -10,7 +10,13 @@ export async function POST(req:Request) {
       if(!email && !name){
             return Response.json({success:false}, {status:405})
       }
-      const product = await db.product.findUnique({ where: { id: id } });
+      const product = await db.product.findUnique({ where: { id: id }, include:{orders:true} });
+      await db.product.update({
+            where:{id:product?.id},
+            data:{
+                  totalOrders: product?.orders.length
+            }
+      })
       const user= await db.user.findUnique({ where: { email:email } });
       
       const ifOldVerificationData = await db.downloadVerification.findFirst({

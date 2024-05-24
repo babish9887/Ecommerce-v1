@@ -27,6 +27,7 @@ model Product{
       orders Order[]
       downloadVerifications DownloadVerification[]
       category String?
+
 }
 
 model User {

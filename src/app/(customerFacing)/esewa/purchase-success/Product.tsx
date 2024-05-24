@@ -47,7 +47,9 @@ function Product({product, name, email}:{product:any, name:string, email:string}
             
                   const link=document.createElement('a')
                   link.href=blobUrl
-                  link.download=`${name}.${id?.split('.')[1]}` || "DigitalOasisProduct"
+                  let extension=id?.split(".")
+                  //@ts-ignore
+                  link.download=`${name}.${extension[extension?.length-1]}` || "DigitalOasisProduct"
                   link.click()
                   URL.revokeObjectURL(blobUrl)
                 } catch (error) {

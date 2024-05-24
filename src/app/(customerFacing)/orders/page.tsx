@@ -84,7 +84,8 @@ function page() {
             
                   const link=document.createElement('a')
                   link.href=blobUrl
-                  link.download=`${name}.${e.split('.')[1]}`
+                  let extension=e?.split(".")
+                  link.download=`${name}.${extension[extension?.length-1]}` || "DigitalOasisProduct"
                   link.click()
                   URL.revokeObjectURL(blobUrl)
                 } catch (error) {

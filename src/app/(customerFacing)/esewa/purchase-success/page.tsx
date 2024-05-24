@@ -1,9 +1,7 @@
 
-import { Button } from "@/components/ui/button";
 import db from "@/db/db";
 import { Resend } from "resend";
 import Product from "./Product";
-import { connect } from "http2";
 
 const resend = new Resend("re_jKD3mRE3_GWpffVnpTBnK1HUDLTKLk51A");
 
@@ -13,8 +11,12 @@ async function PurchaseSuccessPage({searchParams}: {
       
       console.log(searchParams.name, searchParams.email)
       const product=await db.product.findUnique({
-            where:{id: searchParams.id} 
+            where:{id: searchParams.id} ,
+            include:{
+                  orders:true
+            }
       })
+   
       try {
             const user=await db.user.create({
                   data:{
