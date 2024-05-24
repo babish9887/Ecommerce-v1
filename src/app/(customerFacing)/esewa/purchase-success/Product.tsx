@@ -50,7 +50,6 @@ function Product({product, name, email}:{product:any, name:string, email:string}
                   link.click()
                   URL.revokeObjectURL(blobUrl)
                 } catch (error) {
-                  console.log(error)
                 }
             }
 

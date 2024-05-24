@@ -5,8 +5,6 @@ import fs from 'fs/promises'
 export async function GET(req:NextRequest, {params}:any){
       const {downloadVerificationid}=params;
       const pa2=req.nextUrl.searchParams
-      console.log(pa2.get('exp'))
-  console.log(downloadVerificationid)
   let data;
  if(pa2.get('exp')!=='false'){
       data = await db.downloadVerification.findUnique({

@@ -63,7 +63,6 @@ export function DeleteDropdownItem({
                     router.refresh()
 
               } catch (error) {
-                    console.log(error)
                     toast.error("Error Deleting Product")
               }
         });

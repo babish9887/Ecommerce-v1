@@ -25,8 +25,6 @@ function Checkout2({product}:any) {
                   if(!res.data.success)
                         return toast.error(res.data.message, {duration:4000})
                   const uuid=new Date().getTime().toString().slice(-6);
-                  console.log(uuid);
-                  console.log(product.price)
             const jsonData:any = {
                   "amount": product.price.toString(),
                   "failure_url": `https://babish9887-ecommerce-nextjs.vercel.app/fail`,

@@ -3,7 +3,6 @@ import { NextResponse } from "next/server";
 
 export async function POST(req:Request){
       const{email, product}=await req.json()
-      console.log(product, email)
       const user= await db.user.findUnique({
             where: {
                   email:email
@@ -24,7 +23,6 @@ export async function POST(req:Request){
       if(downloadVerification){
             return NextResponse.json({success:false, message:"Product already purchased.You can Download from \"My Orders\" page."}, {status:200})
       }
-      console.log(downloadVerification)
       return NextResponse.json({success:true}, {status:200})
 
 }

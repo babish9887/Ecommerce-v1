@@ -46,8 +46,6 @@ export const sendEmail = async({email, firstname,  price, product}:any) => {
         (mailOptions);
         return mailresponse;
     } catch (error:any) {
-      console.log(error.message)
-
         throw new Error(error.message);
     }
 }
