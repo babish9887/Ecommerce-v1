@@ -37,6 +37,7 @@ function Product({product, name, email}:{product:any, name:string, email:string}
       }
 
       const handleDownload=async ()=>{
+            setIsLoading(true)
             const imageRef=ref(storage,id )
             const url=await getDownloadURL(imageRef)     
             try {
@@ -50,6 +51,8 @@ function Product({product, name, email}:{product:any, name:string, email:string}
                   link.click()
                   URL.revokeObjectURL(blobUrl)
                 } catch (error) {
+                } finally{
+                  setIsLoading(false)
                 }
             }
 

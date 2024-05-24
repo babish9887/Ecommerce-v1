@@ -43,7 +43,6 @@ export async function addProduct(prevState:unknown, formData:FormData) {
       const imagePath= `Images/${crypto.randomUUID()}-${data.image.name}`
       const imageref=ref(storage,imagePath)
       const imageUpload=await uploadBytes(imageref, data.image)
-      console.log("uploaded")
       
       const filePath=`Products/${crypto.randomUUID()}-${data.file.name}`
       const fileref=ref(storage, filePath)

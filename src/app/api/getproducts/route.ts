@@ -6,7 +6,6 @@ export async function GET(req:NextRequest){
       
       const params=req.nextUrl.searchParams
       const order=params.get('order')
-      console.log(order)
       const category=params.get('category')
       if(order=='Top Sales'){
             const temp=await db.product.findMany({
