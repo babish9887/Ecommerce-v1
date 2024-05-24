@@ -77,13 +77,14 @@ function Checkout2({product}:any) {
         }
       
 
+        const url=`https://firebasestorage.googleapis.com/v0/b/digital-oasis-35451.appspot.com/o/Images%2F${product.imagePath.split('/')[1]}?alt=media&token=9a42a3b4-ec64-44e8-943d-f7e670596452`
 
       return(
       <div className="max-w-5xl w-full mx-auto space-y-8">
       <div className='flex gap-4 items-center'>
             <div className='aspect-video flex-shrink-0 w-1/3 relative'>
                   {/* <Image src={product.imagePath} alt={product.name} fill sizes='20' className='object-cover'/> */}
-                  <img src={product.imagePath} alt={product.name} />
+                  <img src={url} alt={product.name} />
             </div>
             <div>
                  

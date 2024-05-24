@@ -1,9 +1,6 @@
-import { EmailTemplate } from "@/lib/email";
 import { Resend } from 'resend';
-import * as React from 'react';
 import db from "@/db/db";
 import { sendEmail } from "@/lib/mailer";
-import { connect } from "http2";
 
 const resend = new Resend("re_Wns3aW9A_pUcauH3K8U9eFH84tWDghCdP");
 
@@ -32,7 +29,8 @@ export async function POST(req:Request) {
             data: {
                   product:{connect: {id: product?.id}},
                   user:{connect: {id:user?.id}},
-                  expiresAt: new Date(Date.now()+1000*60*60*24)
+                  expiresAt: new Date(Date.now()+1000*60*60*24),
+                  productFilePath: product?.filePath
             }
       })
 
@@ -45,13 +43,12 @@ export async function POST(req:Request) {
             }
       })
       console.log(order)
-      const href=`https://babish9887-ecommerce-nextjs.vercel.app/products/download/${verifcationData.id}`
-     const emailStatus=await sendEmail({email:email, firstname:name.split(" ")[0], href, product:product?.name, price:product?.price})
+     const emailStatus=await sendEmail({email:email, firstname:name.split(" ")[0],  product:product?.name, price:product?.price})
 
     if (!emailStatus) {
       return Response.json({ success:false, message:"failed to send Email" }, { status: 500 });
     }
-    return Response.json({success:true, href:href}, {status:200});
+    return Response.json({success:true, href:verifcationData.productFilePath }, {status:200});
   } catch (error) {
       console.log(error)
     return Response.json({ error }, { status: 500 });

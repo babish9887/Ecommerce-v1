@@ -31,12 +31,13 @@ export async function GET(req:NextRequest, {params}:any){
   if(data == null ){
     return NextResponse.redirect(new URL('/products/download/expired', req.url));
   }
+  return NextResponse.json({success:true, filePath: data.product.filePath}, {status:200})
 
-  const {size}=await fs.stat(data.product.filePath)
-  const file = await fs.readFile(data.product.filePath)
-  const extension = data.product.filePath.split('.').pop()
-  return new NextResponse(file, {headers:{
-        "Content-Disposition":`attachment; filename="${data.product.name}.${extension}"`,
-        "Content-Length":size.toString()
-  }})
+//   const {size}=await fs.stat(data.product.filePath)
+//   const file = await fs.readFile(data.product.filePath)
+//   const extension = data.product.filePath.split('.').pop()
+//   return new NextResponse(file, {headers:{
+//         "Content-Disposition":`attachment; filename="${data.product.name}.${extension}"`,
+//         "Content-Length":size.toString()
+//   }})
 }

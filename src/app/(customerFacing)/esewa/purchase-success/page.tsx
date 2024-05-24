@@ -1,7 +1,6 @@
 
 import { Button } from "@/components/ui/button";
 import db from "@/db/db";
-import { EmailTemplate } from "@/lib/email";
 import { Resend } from "resend";
 import Product from "./Product";
 import { connect } from "http2";

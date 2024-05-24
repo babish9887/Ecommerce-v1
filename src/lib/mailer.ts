@@ -2,7 +2,7 @@ import nodemailer from 'nodemailer';
 
 
 
-export const sendEmail = async({email, firstname, href, price, product}:any) => {
+export const sendEmail = async({email, firstname,  price, product}:any) => {
     try {
         // create a hased token
       
@@ -25,8 +25,11 @@ export const sendEmail = async({email, firstname, href, price, product}:any) => 
           <h2 style="color: #333; margin-top: 0;">Hi!, ${firstname}</h2>
           <p style="color: #555;">Here is your receipt:</p>
           <h1 style="color: #333;">Product Name: ${product}</h1>
+          <h4 style="color: #333;">Product purchased Date: ${new Date(Date.now())}</h4>
           <p style="color: #555;">Price Paid: ${price}</p>
-          <a href="${href}" style="background-color: #000; color: #fff; border: none; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-size: 16px; margin-top: 20px; display: inline-block;">Download</a>
+          <p style="color: #555;">You can download the Product from "My Orders" page</p>
+          
+          <a href="https://babish9887-ecommerce-nextjs.vercel.app/orders" style="background-color: #000; color: #fff; border: none; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-size: 16px; margin-top: 20px; display: inline-block;">Go to My Orders Page</a>
         </div>
       </div>
       `

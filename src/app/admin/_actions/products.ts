@@ -7,6 +7,8 @@ import fs from 'fs/promises'
 import { redirect } from 'next/navigation'
 import crypto from 'crypto'
 import { revalidatePath } from 'next/cache'
+import { ref, uploadBytes } from 'firebase/storage'
+import { storage } from '@/db/config'
 
 const fileSchema=z.instanceof(File, {message:"Required"})
 
@@ -29,15 +31,24 @@ export async function addProduct(prevState:unknown, formData:FormData) {
             return result.error.formErrors.fieldErrors
       }
 
-      const data = result.data
-      fs.mkdir('products', {recursive:true})
-      const filePath=`products/${crypto.randomUUID()}-${data.file.name}`
-      await fs.writeFile(filePath, Buffer.from(await data.file.arrayBuffer()))
+      // const data = result.data
+      // fs.mkdir('products', {recursive:true})
+      // const filePath=`products/${crypto.randomUUID()}-${data.file.name}`
+      // await fs.writeFile(filePath, Buffer.from(await data.file.arrayBuffer()))
 
-      fs.mkdir('public/products', {recursive:true})
-      const imagePath=`/products/${crypto.randomUUID()}-${data.image.name}`
-      await fs.writeFile(`public${imagePath}`, Buffer.from(await data.image.arrayBuffer()))
-
+      // fs.mkdir('public/products', {recursive:true})
+      // const imagePath=`/products/${crypto.randomUUID()}-${data.image.name}`
+      // await fs.writeFile(`public${imagePath}`, Buffer.from(await data.image.arrayBuffer()))
+      const data=result.data
+      const imagePath= `Images/${crypto.randomUUID()}-${data.image.name}`
+      const imageref=ref(storage,imagePath)
+      const imageUpload=await uploadBytes(imageref, data.image)
+      console.log("uploaded")
+      
+      const filePath=`Products/${crypto.randomUUID()}-${data.file.name}`
+      const fileref=ref(storage, filePath)
+      const fileUpload=await uploadBytes(fileref, data.file)
+      
       await db.product.create({data:{
             name:data.name,
             description:data.description,

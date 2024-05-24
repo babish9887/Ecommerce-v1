@@ -29,6 +29,7 @@ export async function POST(req:Request){
                   name:product?.name,
                   description:product?.description,
                   price:product?.price,
+                  filePath:product?.filePath,
                   purchaseDate:order.createdAt.toISOString().split("T")[0]
             }
       })

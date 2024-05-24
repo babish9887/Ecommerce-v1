@@ -13,6 +13,8 @@ import { formatCurrency } from '@/lib/Formatter'
 import { sendVerifyEmail } from '@/lib/mailer2'
 import toast from 'react-hot-toast'
 import getUser from '@/app/actions/getUser'
+import { getDownloadURL, ref } from 'firebase/storage'
+import { storage } from '@/db/config'
 
 function page() {
       const [afterEmail, setAfterEmail]=useState(false)
@@ -23,7 +25,6 @@ function page() {
       const [code, setCode]=useState<number>()
 
       const [Orders, setOrders]=useState<any>([])
-      const [products, setProducts]=useState<any>([])
 
 
 
@@ -76,6 +77,24 @@ function page() {
       } finally{
             setIsLoading(false)
       }
+      }
+
+      const handleClick=async (e:any, name:any)=>{
+            const imageRef=ref(storage, e)
+            const url=await getDownloadURL(imageRef)     
+            try {
+                  const respnse=await fetch(url)
+                  const blob=await respnse.blob()
+                  const blobUrl=URL.createObjectURL(blob)
+            
+                  const link=document.createElement('a')
+                  link.href=blobUrl
+                  link.download=`${name}.${e.split('.')[1]}`
+                  link.click()
+                  URL.revokeObjectURL(blobUrl)
+                } catch (error) {
+                  console.log(error)
+                }
       }
 
   return (
@@ -134,8 +153,8 @@ function page() {
                                     <TableCell>{order.purchaseDate}</TableCell>
 
                               <TableCell>
-                              <Button className='mt-4'>
-                              <a href={`https://babish9887-ecommerce-nextjs.vercel.app/products/download/${order.orderId}?exp=false`}>{"Download"}</a>
+                              <Button className='mt-4' onClick={()=>handleClick(order.filePath, order.name)}>
+                              Download
                               </Button>
                               </TableCell>
                               </TableRow>

@@ -7,6 +7,16 @@ const nextConfig = {
                         destination:"https://api.resend.com/:path*"
                   }
             ]
+      },
+
+      images:{
+            remotePatterns:[
+                  {
+                        protocol:"https",
+                        hostname:"firebasestorage.googleapis.com",
+                        pathname:"**"
+                  },
+            ]
       }
 };
 
