@@ -22,6 +22,8 @@ import {
 function ProductForm({ product }: { product?: Product | null }) {
     const [error, action] = useFormState(product == null ? addProduct : updateProduct.bind(null, product.id), {})
     const [price, setPrice] = useState<number | undefined>(product?.price)
+    const url=`https://firebasestorage.googleapis.com/v0/b/digital-oasis-35451.appspot.com/o/Images%2F${product?.imagePath.split('/')[1]}?alt=media&token=9a42a3b4-ec64-44e8-943d-f7e670596452`
+
       Category.shift()
       Category.unshift("None")
     return (
@@ -79,7 +81,7 @@ function ProductForm({ product }: { product?: Product | null }) {
             <Input type="file" id="image" name="image" required={product == null} />
             {product != null && (
             <Image
-                  src={product.imagePath}
+                  src={url}
                   height="400"
                   width="400"
                   alt="Product Image"

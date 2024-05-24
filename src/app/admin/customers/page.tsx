@@ -12,10 +12,7 @@ function page() {
   return (
     <>
     <div className='flex justify-between items-center gap-4'>
-    <PageHeader>Products</PageHeader>
-    <Button>
-      <Link href='/admin/products/new'>Add Product</Link>
-    </Button>
+    <PageHeader>Customers</PageHeader>
     </div>
     <ProductsTable />
     </>
@@ -32,12 +29,12 @@ async function ProductsTable(){
       orderBy:{name: "asc"}
       })
 
-      if(products.length===0) return <p>No Products found</p>
+      if(products.length===0) return <p>No Customers</p>
       return <Table>
             <TableHeader>
                   <TableRow>
                         <TableHead className='w-0'>
-                              <span className='sr-only'>Available For Purchase</span>
+                              <span className='sr-only'>is Activated</span>
                         </TableHead>
                         <TableHead>Name</TableHead>
                         <TableHead>Email</TableHead>

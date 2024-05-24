@@ -83,16 +83,16 @@ export async function updateProduct(id:string, prevState:unknown, formData:FormD
 
       let filePath=product.filePath
       if(data.file!=null && data.file.size>0){
-            await fs.unlink(product.filePath)
-            const filePath=`products/${crypto.randomUUID()}-${data.file.name}`
-            await fs.writeFile(filePath, Buffer.from(await data.file.arrayBuffer()))
+            const imagePath= `Images/${crypto.randomUUID()}-${data.file.name}`
+      const imageref=ref(storage,imagePath)
+      const imageUpload=await uploadBytes(imageref, data.file)
       }
 
       let imagePath=product.imagePath
       if(data.image!=null && data.image.size>0){
-            await fs.unlink(`public${product.imagePath}`)
-            const imagePath=`/products/${crypto.randomUUID()}-${data.image.name}`
-            await fs.writeFile(`public${imagePath}`, Buffer.from(await data.image.arrayBuffer()))
+            const imagePath= `Images/${crypto.randomUUID()}-${data.image.name}`
+            const imageref=ref(storage,imagePath)
+            const imageUpload=await uploadBytes(imageref, data.image)
       }
 
 

@@ -6,7 +6,7 @@ import db from '@/db/db'
 import { CheckCircle2, DownloadIcon, MoreVertical, PencilIcon, XCircle } from 'lucide-react'
 import { formatCurrency, formatNumber } from '@/lib/Formatter'
 import { DropdownMenuContent, DropdownMenu, DropdownMenuSeparator,DropdownMenuTrigger, DropdownMenuItem } from '@/components/ui/dropdown-menu'
-import { ActiveToggleDropdownItem, DeleteDropdownItem } from './_components/ProductActions'
+import { ActiveToggleDropdownItem, DeleteDropdownItem, DownloadDropDownItem } from './_components/ProductActions'
 
 function page() {
   return (
@@ -27,6 +27,8 @@ async function ProductsTable(){
             name:true, 
             price: true, 
             isAvailableforPurchase: true, 
+            filePath:true,
+            imagePath:true,
             _count:{select:{downloadVerifications:true, orders:true}}
       },
       orderBy:{name: "asc"}
@@ -69,12 +71,7 @@ async function ProductsTable(){
                               <TableCell>{formatCurrency(product.price)}</TableCell>
                               <TableCell>{formatNumber(product._count.downloadVerifications)}</TableCell>
                               <TableCell className='flex gap-3'>
-                                    {/* <MoreVertical/> */}
-                                    {/* <a download href={`/admin/products/${product.id}/download`}>
-                                                            <DownloadIcon />
-                                                      </a>
-                              <Link href={`/admin/products/${product.id}/edit`}><PencilIcon /></Link>
-                               */}
+                               
 
                                     <DropdownMenu>
                                           <DropdownMenuTrigger>
@@ -82,11 +79,7 @@ async function ProductsTable(){
                                                 <span className='sr-only'>Actions</span>
                                           </DropdownMenuTrigger>
                                           <DropdownMenuContent>
-                                                <DropdownMenuItem asChild>
-                                                      <a download href={`/admin/products/${product.id}/download`}>
-                                                            Download
-                                                      </a>
-                                                </DropdownMenuItem>
+                                               <DownloadDropDownItem filePath={product.filePath}/>
                                                 <DropdownMenuItem asChild>
                                                      <Link href={`/admin/products/${product.id}/edit`}>Edit</Link>
                                                 </DropdownMenuItem>
@@ -96,6 +89,8 @@ async function ProductsTable(){
                                                 />
                                                 <DropdownMenuSeparator />
                                                 <DeleteDropdownItem
+                                                filePath={product.filePath}
+                                                imagePath={product.imagePath}
                                                 id={product.id}
                                                 disabled={product._count.orders > 0}
                                                  />
