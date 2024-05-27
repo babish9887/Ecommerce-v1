@@ -112,6 +112,12 @@ function Checkout2({product}:any) {
             </CardFooter>
       </Card>
       </form>
+      <div>
+            <h2 className='font-semibold text-2xl'>Use Following credentials for esewa</h2>
+            <p>esewaID: 9806800001/2/3/4/5</p>
+            <p>Password: 1122 or Nepal@123</p>
+            <p>Token/Code: 123456</p>
+      </div>
       </div>  
       )
 }
