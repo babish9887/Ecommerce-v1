@@ -9,8 +9,9 @@ import axios from 'axios'
 
 
 
-function ProductCard({id, name, price, description, imagePath, totalOrders}:{id:string, name:string,price:number, description:string, imagePath:string, totalOrders?:number}) {
+function ProductCard({id, name, price, description, imagePath, totalOrders, position}:{id:string, name:string,price:number, description:string, imagePath:string, totalOrders?:number, position?:string | ""}) {
       const url=`https://firebasestorage.googleapis.com/v0/b/digital-oasis-35451.appspot.com/o/Images%2F${imagePath.split('/')[1]}?alt=media&token=9a42a3b4-ec64-44e8-943d-f7e670596452`
+      console.log(position)
   return (
     <Card className='flex overflow-hidden flex-col'>
       <div className='relative w-full h-auto aspect-video overflow-hidden transition-all'>
@@ -19,7 +20,7 @@ function ProductCard({id, name, price, description, imagePath, totalOrders}:{id:
       <CardHeader>
             <CardTitle>{name}</CardTitle>
             <CardDescription>
-                  {formatCurrency(price)} | <span className='text-sm '>Sold: {totalOrders || 0}</span>
+                  {formatCurrency(price)}  {position==='Top Sales' &&  <span className='text-sm '>| Sold: {totalOrders || 0}</span>}
             </CardDescription>
       </CardHeader>
       <CardContent className='flex-grow'>

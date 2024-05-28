@@ -67,7 +67,7 @@ const  handleValueChange=async (e:any)=>{
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      <Product products={products} />
+      <Product products={products} position={position} />
         {/* {(products && products.length>0) ? <Product products={products} />
         :<>
         <ProductCardSkeleton />
@@ -102,9 +102,9 @@ const  handleValueChange=async (e:any)=>{
 //       )
 // }
 
-async function Product({ products }: any) {
+async function Product({ products, position }: any) {
   return products.map((product: any) => (
-    <ProductCard key={product.id} {...product} />
+    <ProductCard key={product.id} {...product} position={position}/>
   ));
 }
 
