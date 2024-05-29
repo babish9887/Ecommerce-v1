@@ -52,9 +52,9 @@ const  handleValueChange=async (e:any)=>{
   }
   return (
     <>
-      <div className="flex justify-between items-center mb-6 mt-4">
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-6 mt-4">
         <div className="flex justify-center items-center">
-        <h1 className="text-4xl sm:5xl font-bold  ">Products</h1>
+        <h1 className="text-2xl sm:text-4xl sm:5xl font-bold  ">Products</h1>
         <p className="ml-4 mr-4">Category: </p>
         <CategoryDropDown categoryPosition={categoryPosition} handleValueChange={handleValueChange}/>
         </div>
