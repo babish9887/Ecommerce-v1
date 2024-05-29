@@ -11,7 +11,7 @@ export const sendVerifyEmail = async({ email, code}:any) => {
             secure: false,
             auth: {
                   user: "babish9887@gmail.com", 
-                  pass:"uaax fbwt lspf kclp"
+                  pass:"cciq rsav mgni gekw"
             },
         });
 
