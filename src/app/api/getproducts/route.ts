@@ -51,7 +51,7 @@ export async function GET(req:NextRequest){
       }else if(order=='Newest First'){
             const temp=await db.product.findMany({
                   where:{isAvailableforPurchase:true}, 
-                  orderBy:{createdAt:"asc"}})
+                  orderBy:{createdAt:"desc"}})
                   if(category=="All")
                         return NextResponse.json({success:true, products:temp}, {status:200})
                   

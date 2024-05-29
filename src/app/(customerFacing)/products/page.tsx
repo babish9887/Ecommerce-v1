@@ -14,8 +14,6 @@ import {
 import { Button } from "@/components/ui/button";
 import ProductCard, { ProductCardSkeleton } from "@/components/ProductCard";
 import toast from "react-hot-toast";
-import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
 
 async function page() {
   const [products, setProducts] = useState([]);
@@ -68,39 +66,11 @@ const  handleValueChange=async (e:any)=>{
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       <Product products={products} position={position} />
-        {/* {(products && products.length>0) ? <Product products={products} />
-        :<>
-        <ProductCardSkeleton />
-        <ProductCardSkeleton />
-        <ProductCardSkeleton />
-        <ProductCardSkeleton />
-        <ProductCardSkeleton />
-        <ProductCardSkeleton />
-
-        </>} */}
       </div>
     </>
   );
 }
 
-// function SearchBox({products, setProducts}:any){
-//   const [search, setSearch]=useState("");
-//   const handleSearchChange=(e:any)=>{
-//       e.stopPropagation()
-//       console.log(e.target.value)
-//       setSearch(e.target.value)
-//       const temp=products.filter((product:any) => product.name.toLowerCase().startsWith(e.target.value.toLowerCase()))
-//       setProducts(temp)
-
-//   }
-
-//       return (
-//             <div className="flex justify-center items-center gap-2">
-//             <Input value={search} onChange={handleSearchChange} type="text"/>
-//             <div  className="bg-transparent border border-gray-200 p-2 rounded-md hover:cursor-pointer text-gray-500 hover:bg-slate-100"><Search /></div>
-//         </div>
-//       )
-// }
 
 async function Product({ products, position }: any) {
   return products.map((product: any) => (
