@@ -68,7 +68,7 @@ function page() {
         }
       } catch (error) {
             console.log(error)
-            toast.error( error)      
+            toast.error("Something went wrong!")      
       } finally{
             setIsLoading(false)
       }
