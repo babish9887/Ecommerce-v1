@@ -44,12 +44,10 @@ function page() {
             if(res.data.success){
                   const res=await axios.post('/api/getUser', {email})
                   if(!res.data.user) return
-                  console.log(res.data.user)
                   const userId=res.data.user?.id
                   if(res.data.user){
                   const res=await axios.post('/api/getUserDownloads', {userId})
                   setOrders(res.data.usersOrders)
-                  console.log(res.data.usersOrders)
                   }
 
                   setAfterEmailVerified(true)
@@ -58,7 +56,6 @@ function page() {
             }
         } else {
             const res =await axios.post("/api/sendVerificationCode", {email})
-            console.log(res)
             if(res.data.success){
                   setAfterEmail(true);
                   toast.success(res.data.message)
@@ -67,7 +64,6 @@ function page() {
             }
         }
       } catch (error) {
-            console.log(error)
             toast.error("Something went wrong!")      
       } finally{
             setIsLoading(false)
