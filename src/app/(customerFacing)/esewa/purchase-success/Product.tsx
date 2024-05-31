@@ -69,11 +69,11 @@ function Product({product, name, email}:{product:any, name:string, email:string}
                   <h1 className='text-2xl font-bold'>{product?.name}</h1>
                   <div className='line-clamp-3 text-muted-foreground'>{product?.description}</div>
             
-            {isSuccess ? <Button className='mt-4' onClick={handleDownload}>
+            {isSuccess ? <Button className='mt-4' onClick={handleDownload} disabled={isLoading}>
                   {isLoading?"Downloading...":"Download"}
                   </Button>:
                   <Button className='mt-4' size="lg" onClick={handleClick} disabled={isLoading}>
-                        {isLoading? "confirming...": "Get the Product"}
+                        {isLoading? "confirming...": "Click to Confirm"}
                   </Button>
             }
             </div>

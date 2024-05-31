@@ -10,11 +10,14 @@ import { formatCurrency } from '@/lib/Formatter'
 import toast from 'react-hot-toast'
 import { getDownloadURL, ref } from 'firebase/storage'
 import { storage } from '@/db/config'
+import { LoaderCircle } from 'lucide-react'
 
 function page() {
       const [afterEmail, setAfterEmail]=useState(false)
       const [afterEmailVerified, setAfterEmailVerified]=useState(false)
       const [isLoading, setIsLoading]=useState(false)
+      const [download, setDownload]=useState("")
+
 
       const [email, setEmail]=useState<string>()
       const [code, setCode]=useState<number>()
@@ -71,6 +74,8 @@ function page() {
       }
 
       const handleClick=async (e:any, name:any)=>{
+            setDownload(name);
+            setIsLoading(true);
             const imageRef=ref(storage, e)
             const url=await getDownloadURL(imageRef)     
             try {
@@ -86,6 +91,9 @@ function page() {
                   URL.revokeObjectURL(blobUrl)
                 } catch (error) {
                   console.log(error)
+                } finally{
+                  setIsLoading(false)
+                  setDownload("")
                 }
       }
 
@@ -144,9 +152,10 @@ function page() {
 
                                     <TableCell>{order.purchaseDate}</TableCell>
 
-                              <TableCell>
-                              <Button className='mt-4' onClick={()=>handleClick(order.filePath, order.name)}>
-                              Download
+                              <TableCell className='flex justify-end items-center'>
+                              <Button className='mt-4 self-end' onClick={()=>handleClick(order.filePath, order.name)}
+                              disabled={isLoading && download==order.name}>
+                              {(isLoading && download==order.name)? "Downloading..." :"Download"}
                               </Button>
                               </TableCell>
                               </TableRow>
