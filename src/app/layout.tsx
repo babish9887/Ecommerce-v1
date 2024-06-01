@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import {Toaster} from 'react-hot-toast'
 import { cn } from "@/lib/utils";
-import AuthContext from "@/context/AuthContext";
 
 const inter = Inter({ subsets: ["latin"], variable:'--font-sans' });
 
@@ -28,11 +27,8 @@ export default function RootLayout({
 
         </head>
       <body className={cn("bg-background min-h-screen font-sans antialiased",inter.variable )}>
-            <AuthContext>
-
                   <Toaster />
                   {children}
-            </AuthContext>
       </body>
     </html>
   );
