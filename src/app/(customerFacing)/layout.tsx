@@ -1,6 +1,5 @@
 "use client"
 import Nav, { NavLink } from '@/components/Nav'
-import { signIn } from 'next-auth/react'
 import React from 'react'
 
 export const dynamic = 'force-dynamic'
