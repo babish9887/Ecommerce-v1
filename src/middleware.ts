@@ -18,9 +18,6 @@ async function isAuthenticated(req:NextRequest){
       if(autheHeader==null) return false
       const [username, password]=Buffer.from(autheHeader.split(' ')[1], "base64").toString().split(":");
       return username===process.env.ADMIN_USERNAME && password===process.env.ADMIN_PASSWORD
-
-      // isValidPassword(password, password)
-      // return username===process.env.ADMIN_USERNAME && (await isValidPassword(password, process.env.ADMIN_PASSWORD as string))
 }
  
 // See "Matching Paths" below to learn more

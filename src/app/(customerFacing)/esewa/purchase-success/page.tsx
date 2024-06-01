@@ -1,9 +1,6 @@
 
 import db from "@/db/db";
-import { Resend } from "resend";
 import Product from "./Product";
-
-const resend = new Resend("re_jKD3mRE3_GWpffVnpTBnK1HUDLTKLk51A");
 
 async function PurchaseSuccessPage({searchParams}: {
       searchParams:{id:string, name:string, email:string}

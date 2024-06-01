@@ -10,8 +10,8 @@ export const sendVerifyEmail = async({ email, code}:any) => {
             port: 587,
             secure: false,
             auth: {
-                  user: "babish9887@gmail.com", 
-                  pass:"cciq rsav mgni gekw"
+                  user: process.env.USER_EMAIL, 
+                  pass: process.env.USER_PASSWORD
             },
         });
 

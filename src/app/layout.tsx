@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import {Toaster} from 'react-hot-toast'
 import { cn } from "@/lib/utils";
+import AuthContext from "@/context/AuthContext";
 
 const inter = Inter({ subsets: ["latin"], variable:'--font-sans' });
 
@@ -23,10 +24,15 @@ export default function RootLayout({
           <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.min.js" />
           <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/hmac-sha256.min.js" />
           <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/enc-base64.min.js" />
+          <script src="https://www.google.com/recaptcha/api.js" async defer ></script>
+
         </head>
       <body className={cn("bg-background min-h-screen font-sans antialiased",inter.variable )}>
-            <Toaster />
-            {children}
+            <AuthContext>
+
+                  <Toaster />
+                  {children}
+            </AuthContext>
       </body>
     </html>
   );

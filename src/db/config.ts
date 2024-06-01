@@ -3,13 +3,13 @@ import { initializeApp } from "firebase/app";
 import {getStorage} from 'firebase/storage'
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBPOoHUcV7Uve0Mbg7xZBzOqiaw9KMExLA",
-  authDomain: "digital-oasis-35451.firebaseapp.com",
-  projectId: "digital-oasis-35451",
-  storageBucket: "digital-oasis-35451.appspot.com",
-  messagingSenderId: "263797926684",
-  appId: "1:263797926684:web:aeaa3b5aa9bfdc264768d9",
-  measurementId: "G-0161DQQTBM"
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.AUTH_DOMAIN,
+  projectId: process.env.PROJECT_ID,
+  storageBucket: process.env.STORAGE_BUCKET,
+  messagingSenderId: process.env.SENDER_ID,
+  appId: process.env.APP_ID,
+  measurementId: process.env.MEASUREMENT_ID
 };
 
 // Initialize Firebase

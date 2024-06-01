@@ -10,7 +10,8 @@ function Product({product, name, email}:{product:any, name:string, email:string}
       const [isLoading, setIsLoading]=useState(false)
       const [isSuccess, setIsSuccess]=useState(false)
       const [id, setId]=useState<string>()
-      const url=`https://firebasestorage.googleapis.com/v0/b/digital-oasis-35451.appspot.com/o/Images%2F${product.imagePath.split('/')[1]}?alt=media&token=9a42a3b4-ec64-44e8-943d-f7e670596452`
+      const url=`https://firebasestorage.googleapis.com/v0/b/digital-oasis-35451.appspot.com/o/Images%2F${product?.imagePath.split('/')[1]}?alt=media&token=${process.env.URL_TOKEN}`
+
 
 
       const handleClick=async ()=>{

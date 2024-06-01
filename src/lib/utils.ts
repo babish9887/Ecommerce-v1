@@ -8,7 +8,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function createSignature(message:any) {
-      const secretKey = "8gBm/:&EnhH.1/q";
+      const secretKey = process.env.ESEWA_SECRET_KEY as string;
       const hash = CryptoJS.HmacSHA256(message, secretKey);
       const hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
       return hashInBase64;

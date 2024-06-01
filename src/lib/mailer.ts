@@ -12,8 +12,8 @@ export const sendEmail = async({email, firstname,  price, product}:any) => {
             port: 587,
             secure: false,
             auth: {
-                  user: "babish9887@gmail.com", 
-                  pass:"cciq rsav mgni gekw"
+                  user: process.env.USER_EMAIL, 
+                  pass: process.env.USER_PASSWORD
             },
         });
 

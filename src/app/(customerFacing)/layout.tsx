@@ -1,4 +1,6 @@
+"use client"
 import Nav, { NavLink } from '@/components/Nav'
+import { signIn } from 'next-auth/react'
 import React from 'react'
 
 export const dynamic = 'force-dynamic'
@@ -15,6 +17,7 @@ const CustomerLayout = ({children}:Readonly<{children:React.ReactNode}>) => {
             <NavLink href='/products'>Products</NavLink>
             <NavLink href='/orders'>My Orders</NavLink>
       </div>
+     
       </Nav>
       <div className='container my-6'>{children}</div>
     </>
