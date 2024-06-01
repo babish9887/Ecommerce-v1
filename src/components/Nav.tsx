@@ -7,7 +7,7 @@ import React, { Children, ComponentProps } from 'react'
 
 function Nav({children}:any) {
   return (
-    <nav className='bg-primary text-primary-foreground flex justify-around items-center px-4 h-16'>
+    <nav className='bg-primary text-primary-foreground flex justify-center sm:justify-around items-center sm:px-4 h-16'>
      {children}
     </nav>
   )
