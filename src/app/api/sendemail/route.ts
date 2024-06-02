@@ -1,8 +1,6 @@
-import { Resend } from 'resend';
 import db from "@/db/db";
 import { sendEmail } from "@/lib/mailer";
 
-const resend = new Resend("re_Wns3aW9A_pUcauH3K8U9eFH84tWDghCdP");
 
 export async function POST(req:Request) {
   try {

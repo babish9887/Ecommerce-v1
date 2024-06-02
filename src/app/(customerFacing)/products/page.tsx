@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import ProductCard, { ProductCardSkeleton } from "@/components/ProductCard";
+import ProductCard from "@/components/ProductCard";
 import toast from "react-hot-toast";
 
 async function page() {

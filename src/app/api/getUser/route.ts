@@ -9,6 +9,5 @@ export async function POST(req:Request){
                   email:email
             }
       })
-
       return NextResponse.json({success:true, user:user}, {status:200})
 }

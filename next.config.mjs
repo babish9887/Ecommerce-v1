@@ -1,23 +1,24 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-      async rewrites(){
-            return [
-                  {
-                        source: '/api/:path*',
-                        destination:"https://api.resend.com/:path*"
-                  }
-            ]
-      },
-
-      images:{
-            remotePatterns:[
-                  {
-                        protocol:"https",
-                        hostname:"firebasestorage.googleapis.com",
-                        pathname:"**"
-                  },
-            ]
-      }
+      images: {
+            remotePatterns: [
+              {
+                protocol: 'https',
+                hostname: 'lh3.googleusercontent.com',
+                pathname: '**',
+              },
+              {
+                  protocol: 'https',
+                  hostname: 'avatars.githubusercontent.com',
+                  pathname: '**',
+               },
+               {
+                  protocol:"https",
+                  hostname:"firebasestorage.googleapis.com",
+                  pathname:"**"
+            },
+            ],
+          },
 };
 
 export default nextConfig;

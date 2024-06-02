@@ -1,8 +1,7 @@
 "use client"
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import React, { useState } from 'react'
 import axios from 'axios'
@@ -10,62 +9,37 @@ import { formatCurrency } from '@/lib/Formatter'
 import toast from 'react-hot-toast'
 import { getDownloadURL, ref } from 'firebase/storage'
 import { storage } from '@/db/config'
-import { LoaderCircle } from 'lucide-react'
+import { signIn, useSession } from 'next-auth/react'
 
 function page() {
-      const [afterEmail, setAfterEmail]=useState(false)
-      const [afterEmailVerified, setAfterEmailVerified]=useState(false)
       const [isLoading, setIsLoading]=useState(false)
       const [download, setDownload]=useState("")
 
+      const [gotPurchased, setGotPurchased]=useState(false)
 
-      const [email, setEmail]=useState<string>()
-      const [code, setCode]=useState<number>()
 
       const [Orders, setOrders]=useState<any>([])
-
+      const {data: session}=useSession();
 
 
       const handleSubmit=async (e:any)=>{
-            if(afterEmail && afterEmailVerified){
-                  setAfterEmail(false)
-                  setAfterEmailVerified(false)
-                  return
-            }
+          
             setIsLoading(true)
             e.preventDefault()
 
-
             try {
-                  
-           
-        if(afterEmail ){
-
-            const res=await axios.post("/api/verifycode", {email, code})
-
-
-            if(res.data.success){
+                  const email=session?.user?.email;
+                  console.log(email)
                   const res=await axios.post('/api/getUser', {email})
-                  if(!res.data.user) return
+                  if(!res.data.user) return toast.error("You have not Purchased anything Yet!");
                   const userId=res.data.user?.id
+                  console.log(userId)
                   if(res.data.user){
                   const res=await axios.post('/api/getUserDownloads', {userId})
                   setOrders(res.data.usersOrders)
+                  console.log(res.data.usersOrders)
+                  setGotPurchased(true)
                   }
-
-                  setAfterEmailVerified(true)
-            } else {
-                  toast.error(res.data.message)
-            }
-        } else {
-            const res =await axios.post("/api/sendVerificationCode", {email})
-            if(res.data.success){
-                  setAfterEmail(true);
-                  toast.success(res.data.message)
-            } else{
-                  toast.error(res.data.message)
-            }
-        }
       } catch (error) {
             toast.error("Something went wrong!")      
       } finally{
@@ -99,29 +73,24 @@ function page() {
 
   return (
       <>
-    <form className='max-2-xl mx-auto'>
+    <div className='max-2-xl mx-auto'>
       <Card>
             <CardHeader>
                   <CardTitle>My Orders</CardTitle>
-                  <CardDescription>Enter your email to get All your Purchases</CardDescription>
+                  <CardDescription>Click Get Purchase to get All your Purchases</CardDescription>
             </CardHeader>
-            <CardContent>
-                  <div className='space-y-2'>
-                        <Label>email</Label>
-                        <Input type='email' required onChange={(e)=>setEmail(e.target.value)}/>
-                  </div>
-                  {afterEmail && !afterEmailVerified && 
-                  <div className='space-y-2'>
-                  <Label>Enter the code we have just sent to email</Label>
-                  <Input type='number' required onChange={(e)=>setCode(parseInt(e.target.value))}/>
-            </div>}
-            </CardContent>
+           
             <CardFooter>
-                  <Button disabled={isLoading} onClick={handleSubmit}>{afterEmail? "Submit": "Request code"}</Button>
+                 {session===undefined || session===null ?
+                  <Button  onClick={()=>signIn("google")} type='button'>{"Sign in to Get Purchase"}</Button>
+                  :
+                  <Button disabled={isLoading || gotPurchased} onClick={handleSubmit} type='button'>{isLoading? "Getting...": "Get My purchases"}</Button>
+                  
+                  }
             </CardFooter>
       </Card>
-    </form>
-      {afterEmail && afterEmailVerified && 
+    </div>
+      {gotPurchased &&
       (
             <>
             <h1 className='font-semibold mt-6 mb-4 text-3xl'>Here is All your Purchases!</h1>

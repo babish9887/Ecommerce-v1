@@ -1,26 +1,32 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import axios from 'axios';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import CryptoJS from 'crypto-js'
 import toast from 'react-hot-toast';
+import { signIn, useSession } from 'next-auth/react';
+import { formatCurrency } from '@/lib/Formatter';
 
 
 
 function Checkout2({product}:any) {
       const [isLoading, setIsLoading]=useState(false);
       const [errorMessage, setErrorMessage]=useState<string>()
-      const [email, setEmail]=useState<string>()
-      const [name, setName]=useState<string>()
+      const {data: session}=useSession();
 
       async function handlePayButtonClick(e:any) {
             e.preventDefault()
             setIsLoading(true)
 
+            if(session===null || session===undefined){
+                  return;
+            }
+
             //check if the user has already purchased the product or not
             try {
+                  const email=session.user?.email;
+                  const name=session.user?.name
                   const res=await axios.post('/api/checkdownload',{email, product:product.id})
                   if(!res.data.success)
                         return toast.error(res.data.message, {duration:4000})
@@ -82,7 +88,6 @@ function Checkout2({product}:any) {
       <div className="max-w-5xl w-full mx-auto space-y-8">
       <div className='flex gap-4 items-center'>
             <div className='aspect-video flex-shrink-0 w-1/3 relative'>
-                  {/* <Image src={product.imagePath} alt={product.name} fill sizes='20' className='object-cover'/> */}
                   <img src={url} alt={product.name} />
             </div>
             <div>
@@ -100,16 +105,22 @@ function Checkout2({product}:any) {
                   <CardDescription className='text-desctructive'></CardDescription>
             </CardHeader>
             <CardContent>
-                 <div className='mt-4 space-y-6'>
-                 <Input type="text" placeholder="Full Name" className='input' onChange={(e)=>setName(e.target.value)} required/>
-                 <Input type="email" placeholder="Email" className='input' onChange={(e)=>setEmail(e.target.value)} required/>
+                 <div className='mt-2 space-y-6'>
+                  <h1>Click on the Link Below to Buy</h1>
                  </div>
             </CardContent>
             <CardFooter>
-                  <Button className='w-full' size="lg" disabled={ isLoading}
+                 {session===null || session===undefined ? (
+                  <Button className='w-full' size="lg" disabled={ isLoading} type='button' onClick={()=>{signIn("google")}}
                   >
-                      {isLoading ?  "Submitting...": `Purchase via esewa`}
+                  {isLoading ?  "Signing in...": `Sign in to Buy`}
                   </Button>
+                 ):(
+                  <Button className='w-full' size="lg" disabled={ isLoading} type='submit'
+                  >
+                      {isLoading ?  "Submitting...": `Purchase via esewa (${formatCurrency(product.price)})`}
+                  </Button>
+                 )}
             </CardFooter>
       </Card>
       </form>
