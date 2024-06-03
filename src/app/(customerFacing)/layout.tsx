@@ -20,7 +20,6 @@ import Placeholder from '../../../public/placeholder.jpg'
 const CustomerLayout = ({children}:Readonly<{children:React.ReactNode}>) => {
       const {data:session}=useSession();
       const [open, setOpen]=useState(false);
-      console.log(session)
   return (
     <>
       <Nav>
